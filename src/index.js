@@ -8,6 +8,13 @@ const Item = ({item, dispatch}) => {
   return(
     <li key={item.id}>{item.text} {item.id}
       <select value={item.itemType}
+              onChange={e => (
+                dispatch({
+                  type: 'SELECT_ITEM_TYPE',
+                  itemType: select.value,
+                  id: item.id
+                })
+              )}
               ref={node => select = node}>
         <option>Heading</option>
         <option>Paragraph</option>
@@ -51,6 +58,16 @@ let initialState = {
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'SELECT_ITEM_TYPE':
+      console.log(action.itemType);
+      state.items = state.items.map(item => (
+        item.id === action.id ? {
+          id: item.id,
+          itemType: action.itemType,
+          text: item.text
+        }: item
+      ))
+      return state
     case 'SET_TITLE':
       console.log(action.title);
       return {
