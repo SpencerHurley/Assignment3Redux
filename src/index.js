@@ -11,14 +11,15 @@ const ListEditor = ({items, dispatch}) => (
     }>Add Item</button>
     <ul>
       {items.map(item => (
-        <li>{item.text}</li>
+        <li key={item.id}>{item.text} {item.id}</li>
       ))}
     </ul>
   </div>
 )
 
+let id = 2
 let initialState = {
-  items: [{text: 'Item 1'}, {text: 'Item 2'}]
+  items: [{text: 'Item 1', id: 0}, {text: 'Item 2', id: 1}]
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -26,7 +27,7 @@ const reducer = (state = initialState, action) => {
       return {items:
         [
           ...state.items,
-          {text: 'New Item'}
+          {text: 'New Item', id: id++}
         ]
       }
     default:
