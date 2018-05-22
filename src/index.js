@@ -2,7 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const ListEditor = ({items}) => (
-  <h1>List Editor ({items.length})</h1>
+  <div>
+    <h1>List Editor ({items.length})</h1>
+    <ul>
+      {items.map(item => (
+        <li>{item.text}</li>
+      ))}
+    </ul>
+  </div>
 )
 
 ReactDOM.render(
