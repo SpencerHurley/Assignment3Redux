@@ -6,6 +6,11 @@ import {createStore} from 'redux'
 const Item = ({item, dispatch}) => {
   return(
     <li key={item.id}>{item.text} {item.id}
+      <select>
+        <option>Heading</option>
+        <option>Paragraph</option>
+        <option>List</option>
+      </select>
       <button onClick={e => (
         dispatch({type: 'DELETE_ITEM', id: item.id})
       )}>Delete</button>
