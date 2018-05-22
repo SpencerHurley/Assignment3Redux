@@ -12,8 +12,11 @@ const ListEditor = ({items}) => (
   </div>
 )
 
+let initialState = {
+  items: [{text: 'Item 1'}, {text: 'Item 2'}]
+}
+
 ReactDOM.render(
-  <ListEditor items={
-    [{text: 'Item 1'}, {text: 'Item 2'}]}/>,
+  <ListEditor/>,
   document.getElementById('root')
 )
