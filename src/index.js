@@ -20,7 +20,10 @@ let initialState = {
 const reducer = (state = initialState) => {
   return state
 }
-const App = connect(state => ({items: state.items}))(ListEditor)
+const stateToPropsMapper = (state) => (
+  {items: state.items}
+)
+const App = connect(stateToPropsMapper)(ListEditor)
 const store = createStore(reducer)
 
 ReactDOM.render(
