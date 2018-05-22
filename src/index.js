@@ -1,7 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+const ListEditor = () => (
+  <h1>List Editor</h1>
+)
+
 ReactDOM.render(
-  <h1>List Editor</h1>,
+  <ListEditor/>,
   document.getElementById('root')
 )
