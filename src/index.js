@@ -3,6 +3,16 @@ import ReactDOM from 'react-dom'
 import {Provider, connect} from 'react-redux'
 import {createStore} from 'redux'
 
+const Heading = () => (
+  <h3>Heading Widget</h3>
+)
+const Paragraph = () => (
+  <h3>Paragraph Widget</h3>
+)
+const List = () => (
+  <h3>List Widget</h3>
+)
+
 const Item = ({item, dispatch}) => {
   let select
   return(
@@ -23,6 +33,11 @@ const Item = ({item, dispatch}) => {
       <button onClick={e => (
         dispatch({type: 'DELETE_ITEM', id: item.id})
       )}>Delete</button>
+      <div>
+        {item.itemType === 'Heading' && <Heading/>}
+        {item.itemType === 'Paragraph' && <Paragraph/>}
+        {item.itemType === 'List' && <List/>}
+      </div>
     </li>
   )
 }
@@ -38,7 +53,7 @@ const ListEditor = ({items, title, dispatch}) => {
                dispatch({type: 'SET_TITLE', title: titleFld.value})
       )}/>
       <button onClick={e =>
-        (dispatch({type: 'ADD_ITEM', title: titleFld.value}))
+        (dispatch({type: 'ADD_ITEM', title: titleFld.value, itemType: 'Paragraph'}))
       }>Add Item</button>
       <ul>
         {items.map(item => (
@@ -67,7 +82,7 @@ const reducer = (state = initialState, action) => {
           text: item.text
         }: item
       ))
-      return state
+      return JSON.parse(JSON.stringify(state))
     case 'SET_TITLE':
       console.log(action.title);
       return {
@@ -78,7 +93,10 @@ const reducer = (state = initialState, action) => {
       return {items:
         [
           ...state.items,
-          {text: action.title, id: id++}
+          { text: action.title,
+            id: id++,
+            itemType: action.itemType
+          }
         ]
       }
     case 'DELETE_ITEM':
