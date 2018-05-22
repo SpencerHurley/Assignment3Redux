@@ -11,7 +11,11 @@ const ListEditor = ({items, dispatch}) => (
     }>Add Item</button>
     <ul>
       {items.map(item => (
-        <li key={item.id}>{item.text} {item.id}</li>
+        <li key={item.id}>{item.text} {item.id}
+          <button onClick={e => (
+            dispatch({type: 'DELETE_ITEM', id: item.id})
+          )}>Delete</button>
+        </li>
       ))}
     </ul>
   </div>
@@ -29,6 +33,11 @@ const reducer = (state = initialState, action) => {
           ...state.items,
           {text: 'New Item', id: id++}
         ]
+      }
+    case 'DELETE_ITEM':
+      // alert(action.id)
+      return {
+        items: state.items.filter(item => (item.id != action.id))
       }
     default:
       return state
