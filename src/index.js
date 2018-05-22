@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom'
 import {Provider, connect} from 'react-redux'
 import {createStore} from 'redux'
 
+const Item = ({item, dispatch}) => {
+  return(
+    <li key={item.id}>{item.text} {item.id}
+      <button onClick={e => (
+        dispatch({type: 'DELETE_ITEM', id: item.id})
+      )}>Delete</button>
+    </li>
+  )
+}
+const ListItem = connect()(Item)
+
 const ListEditor = ({items, title, dispatch}) => {
   let titleFld
   return (
@@ -17,11 +28,7 @@ const ListEditor = ({items, title, dispatch}) => {
       }>Add Item</button>
       <ul>
         {items.map(item => (
-          <li key={item.id}>{item.text} {item.id}
-            <button onClick={e => (
-              dispatch({type: 'DELETE_ITEM', id: item.id})
-            )}>Delete</button>
-          </li>
+          <ListItem key={item.id} item={item}/>
         ))}
       </ul>
     </div>
