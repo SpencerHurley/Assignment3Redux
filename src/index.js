@@ -13,7 +13,7 @@ const ListEditor = ({items, title, dispatch}) => {
                dispatch({type: 'SET_TITLE', title: titleFld.value})
       )}/>
       <button onClick={e =>
-        (dispatch({type: 'ADD_ITEM'}))
+        (dispatch({type: 'ADD_ITEM', title: titleFld.value}))
       }>Add Item</button>
       <ul>
         {items.map(item => (
@@ -44,7 +44,7 @@ const reducer = (state = initialState, action) => {
       return {items:
         [
           ...state.items,
-          {text: 'New Item', id: id++}
+          {text: action.title, id: id++}
         ]
       }
     case 'DELETE_ITEM':
