@@ -4,9 +4,11 @@ import {Provider, connect} from 'react-redux'
 import {createStore} from 'redux'
 
 const Item = ({item, dispatch}) => {
+  let select
   return(
     <li key={item.id}>{item.text} {item.id}
-      <select>
+      <select value={item.itemType}
+              ref={node => select = node}>
         <option>Heading</option>
         <option>Paragraph</option>
         <option>List</option>
@@ -42,7 +44,10 @@ const ListEditor = ({items, title, dispatch}) => {
 
 let id = 2
 let initialState = {
-  items: [{text: 'Item 1', id: 0}, {text: 'Item 2', id: 1}]
+  items: [
+    {text: 'Item 1', id: 0, itemType: 'Paragraph'},
+    {text: 'Item 2', id: 1, itemType: 'List'}
+  ]
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
