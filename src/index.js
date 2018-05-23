@@ -43,25 +43,26 @@ const Item = ({item, dispatch}) => {
 }
 const ListItem = connect()(Item)
 
-const ListEditor = ({items, title, dispatch}) => {
-  let titleFld
-  return (
-    <div>
-      <h1>List Editor ({items.length})</h1>
-      <input ref={node => titleFld = node}
-             val={title} onChange={e => (
-               dispatch({type: 'SET_TITLE', title: titleFld.value})
-      )}/>
-      <button onClick={e =>
-        (dispatch({type: 'ADD_ITEM', title: titleFld.value, itemType: 'Paragraph'}))
-      }>Add Item</button>
-      <ul>
-        {items.map(item => (
-          <ListItem key={item.id} item={item}/>
-        ))}
-      </ul>
-    </div>
-  )
+class ListEditor extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div>
+        <h1>List Editor ({this.props.items.length})</h1>
+        <button onClick={e =>
+          (this.props.dispatch({type: 'ADD_ITEM', title: 'New Item', itemType: 'Paragraph'}))
+        }>Add Item
+        </button>
+        <ul>
+          {this.props.items.map(item => (
+            <ListItem key={item.id} item={item}/>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 }
 
 let id = 2
