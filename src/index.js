@@ -16,7 +16,7 @@ const List = () => (
 const Item = ({item, dispatch}) => {
   let select
   return(
-    <li key={item.id}>{item.text} {item.id}
+    <li key={item.id}>{item.title} {item.id}
       <select value={item.itemType}
               onChange={e => (
                 dispatch({
@@ -51,6 +51,7 @@ class ListEditor extends React.Component {
     return (
       <div>
         <h1>List Editor ({this.props.items.length})</h1>
+        <button onClick={e => this.props.dispatch({type: 'SAVE_ITEMS'})}>Save</button>
         <ul>
           {this.props.items.map(item => (
             <ListItem key={item.id} item={item}/>
@@ -68,19 +69,27 @@ class ListEditor extends React.Component {
 let id = 2
 let initialState = {
   items: [
-    {text: 'Item 1', id: 0, itemType: 'Paragraph'},
-    {text: 'Item 2', id: 1, itemType: 'List'}
+    {title: 'Item 1', id: 0, itemType: 'Paragraph'},
+    {title: 'Item 2', id: 1, itemType: 'List'}
   ]
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'SAVE_ITEMS':
+      fetch('http://localhost:8080/api/widget/save', {
+        method: 'post',
+        body: JSON.stringify(state.items),
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
     case 'SELECT_ITEM_TYPE':
       console.log(action.itemType);
       state.items = state.items.map(item => (
         item.id === action.id ? {
           id: item.id,
           itemType: action.itemType,
-          text: item.text
+          title: item.title
         }: item
       ))
       return JSON.parse(JSON.stringify(state))
@@ -94,7 +103,7 @@ const reducer = (state = initialState, action) => {
       return {items:
         [
           ...state.items,
-          { text: action.title,
+          { title: action.title,
             id: id++,
             itemType: action.itemType
           }
