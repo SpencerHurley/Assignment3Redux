@@ -51,15 +51,15 @@ class ListEditor extends React.Component {
     return (
       <div>
         <h1>List Editor ({this.props.items.length})</h1>
-        <button onClick={e =>
-          (this.props.dispatch({type: 'ADD_ITEM', title: 'New Item', itemType: 'Paragraph'}))
-        }>Add Item
-        </button>
         <ul>
           {this.props.items.map(item => (
             <ListItem key={item.id} item={item}/>
           ))}
         </ul>
+        <button onClick={e =>
+          (this.props.dispatch({type: 'ADD_ITEM', title: 'New Item', itemType: 'Paragraph'}))
+        }>Add Item
+        </button>
       </div>
     )
   }
