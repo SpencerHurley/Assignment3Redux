@@ -43,23 +43,33 @@ const Item = ({item, dispatch}) => {
 }
 const ListItem = connect()(Item)
 
+const findAllItems = dispatch => {
+  fetch('http://localhost:8080/api/widget')
+    .then(response => (response.json()))
+    .then(items => dispatch({type: 'FIND_ALL_ITEMS', items: items}))
+}
+const addItem = dispatch => {
+  dispatch({type: 'ADD_ITEM', title: 'New Item', itemType: 'Paragraph'})
+}
+const save = dispatch => {
+  dispatch({type: 'SAVE_ITEMS'})
+}
 class ListEditor extends React.Component {
   constructor(props) {
     super(props)
+    this.props.findAllItems()
   }
   render() {
     return (
       <div>
         <h1>List Editor ({this.props.items.length})</h1>
-        <button onClick={e => this.props.dispatch({type: 'SAVE_ITEMS'})}>Save</button>
+        <button onClick={this.props.save}>Save</button>
         <ul>
           {this.props.items.map(item => (
             <ListItem key={item.id} item={item}/>
           ))}
         </ul>
-        <button onClick={e =>
-          (this.props.dispatch({type: 'ADD_ITEM', title: 'New Item', itemType: 'Paragraph'}))
-        }>Add Item
+        <button onClick={this.props.addItem}>Add Item
         </button>
       </div>
     )
@@ -75,6 +85,10 @@ let initialState = {
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'FIND_ALL_ITEMS':
+      return {
+        items: action.items
+      }
     case 'SAVE_ITEMS':
       fetch('http://localhost:8080/api/widget/save', {
         method: 'post',
@@ -120,7 +134,12 @@ const reducer = (state = initialState, action) => {
 const stateToPropsMapper = (state) => (
   {items: state.items, title: state.title}
 )
-const App = connect(stateToPropsMapper)(ListEditor)
+const dispatcherToPropsMapper = dispatch => ({
+  save: () => save(dispatch),
+  findAllItems: () => findAllItems(dispatch),
+  addItem: () => addItem(dispatch)
+})
+const App = connect(stateToPropsMapper, dispatcherToPropsMapper)(ListEditor)
 const store = createStore(reducer)
 
 ReactDOM.render(
