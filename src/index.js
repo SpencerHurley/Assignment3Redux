@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider, connect} from 'react-redux'
 import {createStore} from 'redux'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const Heading = () => (
   <h3>Heading Widget</h3>
@@ -16,7 +17,7 @@ const List = () => (
 const Item = ({item, dispatch}) => {
   let select
   return(
-    <li key={item.id}>{item.title} {item.id}
+    <li className="list-group-item" key={item.id}>{item.title} {item.id}
       <select value={item.itemType}
               onChange={e => (
                 dispatch({
@@ -79,8 +80,6 @@ class ListEditor extends React.Component {
 let id = 2
 let initialState = {
   items: [
-    {title: 'Item 1', id: 0, itemType: 'Paragraph'},
-    {title: 'Item 2', id: 1, itemType: 'List'}
   ]
 }
 const reducer = (state = initialState, action) => {
